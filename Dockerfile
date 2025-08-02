@@ -9,9 +9,9 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
 # Variáveis de ambiente necessárias (definidas em produção):
-# ENV SUPABASE_URL=https://pszfqqmmljekibmcgmig.supabase.co
-# ENV SUPABASE_KEY=sb_publishable_d2NwmSXLau87m9yNp590bA_zOKPvlMX
-# ENV SUPABASE_SECRET=sb_secret_9nszt9IAhYd94neHZQHP6w_0viqK_FW
+# ENV NEXT_PUBLIC_SUPABASE_URL=https://pszfqqmmljekibmcgmig.supabase.co
+# ENV NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_d2NwmSXLau87m9yNp590bA_zOKPvlMX
+# ENV SUPABASE_SERVICE_ROLE_KEY=sb_secret_9nszt9IAhYd94neHZQHP6w_0viqK_FW
 # ENV SECRET_KEY=dev-secret-key-change-in-production
 
 # Instala dependências do sistema necessárias
