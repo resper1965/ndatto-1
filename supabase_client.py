@@ -11,7 +11,21 @@ class SupabaseManager:
         self.supabase_url: str = os.getenv("SUPABASE_URL")
         self.supabase_key: str = os.getenv("SUPABASE_KEY")
         self.supabase_secret: str = os.getenv("SUPABASE_SECRET")
-        self.client: Client = create_client(self.supabase_url, self.supabase_key)
+        
+        # Debug: imprime as variáveis (sem mostrar valores completos)
+        print(f"SUPABASE_URL: {self.supabase_url[:20] if self.supabase_url else 'None'}...")
+        print(f"SUPABASE_KEY: {self.supabase_key[:20] if self.supabase_key else 'None'}...")
+        
+        # Verifica se as variáveis de ambiente estão definidas
+        if not self.supabase_url or not self.supabase_key:
+            raise ValueError("SUPABASE_URL e SUPABASE_KEY devem estar definidos nas variáveis de ambiente")
+        
+        try:
+            self.client: Client = create_client(self.supabase_url, self.supabase_key)
+            print("Cliente Supabase criado com sucesso")
+        except Exception as e:
+            print(f"Erro ao criar cliente Supabase: {e}")
+            raise
         
     async def sign_up(self, email: str, password: str) -> Dict[str, Any]:
         """Registra um novo usuário."""

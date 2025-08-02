@@ -5,8 +5,14 @@ FROM python:3.11-slim
 WORKDIR /app
 
 # Define variáveis de ambiente para evitar que o Python escreva arquivos .pyc e buffer
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+# Variáveis de ambiente necessárias (definidas em produção):
+# ENV SUPABASE_URL=https://pszfqqmmljekibmcgmig.supabase.co
+# ENV SUPABASE_KEY=sb_publishable_d2NwmSXLau87m9yNp590bA_zOKPvlMX
+# ENV SUPABASE_SECRET=sb_secret_9nszt9IAhYd94neHZQHP6w_0viqK_FW
+# ENV SECRET_KEY=dev-secret-key-change-in-production
 
 # Instala dependências do sistema necessárias
 RUN apt-get update && apt-get install -y \
