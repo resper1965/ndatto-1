@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Alertas</h1>
+    <div class="d-flex align-items-center gap-2">
+        <span class="text-muted">Filtros:</span>
+        <form method="GET" class="d-flex gap-2">
+            <select name="status" class="form-select form-select-sm">
+                <option value="">Todos os status</option>
+                <option value="new" {% if status == 'new' %}selected{% endif %}>Novos</option>
+                <option value="resolved" {% if status == 'resolved' %}selected{% endif %}>Resolvidos</option>
+            </select>
+            <button type="submit" class="btn btn-sm btn-primary">Filtrar</button>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Dispositivo</th>
+                        <th>Tipo</th>
+                        <th>Severidade</th>
+                        <th>Status</th>
+                        <th>Data</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if alerts %}
+                        {% for alert in alerts %}
+                        <tr>
+                            <td>{{ alert.device_hostname or alert.device_uid or 'N/A' }}</td>
+                            <td>{{ alert.alert_type or 'N/A' }}</td>
+                            <td>
+                                <span class="badge 
+                                    {% if alert.severity == 'high' %}bg-danger
+                                    {% elif alert.severity == 'medium' %}bg-warning
+                                    {% else %}bg-info{% endif %}">
+                                    {{ alert.severity or 'low' }}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge 
+                                    {% if alert.status == 'new' %}bg-danger
+                                    {% else %}bg-success{% endif %}">
+                                    {{ alert.status or 'new' }}
+                                </span>
+                            </td>
+                            <td>{{ alert.created_at or 'N/A' }}</td>
+                            <td>
+                                {% if alert.status == 'new' %}
+                                <a href="{{ url_for('resolve_alert_route', alert_uid=alert.uid) }}" 
+                                   class="btn btn-sm btn-success"
+                                   onclick="return confirm('Confirmar resolução do alerta?')">
+                                    <i class="bi bi-check-circle"></i> Resolver
+                                </a>
+                                {% else %}
+                                <span class="text-muted">Resolvido</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="6" class="text-center text-muted">Nenhum alerta encontrado</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Detalhes do Dispositivo</h1>
+    <a href="{{ url_for('devices') }}" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left"></i> Voltar
+    </a>
+</div>
+
+{% if device %}
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Informações Gerais</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <tr>
+                        <td><strong>Hostname:</strong></td>
+                        <td>{{ device.hostname or 'N/A' }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>UID:</strong></td>
+                        <td>{{ device.uid or 'N/A' }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Site UID:</strong></td>
+                        <td>{{ device.site_uid or 'N/A' }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Status:</strong></td>
+                        <td>
+                            <span class="badge {% if device.status == 'online' %}bg-success{% else %}bg-danger{% endif %}">
+                                {{ device.status or 'unknown' }}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Última Atividade:</strong></td>
+                        <td>{{ device.last_seen or 'N/A' }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>IP:</strong></td>
+                        <td>{{ device.ip_address or 'N/A' }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Componentes</h5>
+            </div>
+            <div class="card-body">
+                {% if components %}
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Tipo</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for component in components %}
+                            <tr>
+                                <td>{{ component.name or 'N/A' }}</td>
+                                <td>{{ component.type or 'N/A' }}</td>
+                                <td>
+                                    <span class="badge 
+                                        {% if component.status == 'healthy' %}bg-success
+                                        {% elif component.status == 'warning' %}bg-warning
+                                        {% else %}bg-danger{% endif %}">
+                                        {{ component.status or 'unknown' }}
+                                    </span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-muted mb-0">Nenhum componente encontrado</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Alertas Recentes</h5>
+            </div>
+            <div class="card-body">
+                <p class="text-muted">Funcionalidade de alertas será implementada em breve.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="alert alert-danger">
+    <h5>Dispositivo não encontrado</h5>
+    <p>O dispositivo solicitado não foi encontrado ou não existe.</p>
+    <a href="{{ url_for('devices') }}" class="btn btn-primary">Voltar para Dispositivos</a>
+</div>
+{% endif %}
+{% endblock %} 

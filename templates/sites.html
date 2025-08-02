@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Sites</h1>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>UID</th>
+                        <th>Endereço</th>
+                        <th>Dispositivos</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if sites %}
+                        {% for site in sites %}
+                        <tr>
+                            <td>{{ site.name or 'N/A' }}</td>
+                            <td>{{ site.uid or 'N/A' }}</td>
+                            <td>{{ site.address or 'N/A' }}</td>
+                            <td>{{ site.device_count or 0 }}</td>
+                            <td>
+                                <span class="badge 
+                                    {% if site.status == 'active' %}bg-success
+                                    {% else %}bg-secondary{% endif %}">
+                                    {{ site.status or 'inactive' }}
+                                </span>
+                            </td>
+                            <td>
+                                <a href="{{ url_for('devices', site_uid=site.uid) }}" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-pc-display"></i> Dispositivos
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="6" class="text-center text-muted">Nenhum site encontrado</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %} 

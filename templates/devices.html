@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Dispositivos</h1>
+    <div class="d-flex align-items-center gap-2">
+        <span class="text-muted">Filtros:</span>
+        <form method="GET" class="d-flex gap-2">
+            <input type="text" name="site_uid" value="{{ site_uid }}" placeholder="Site UID" class="form-control form-control-sm">
+            <select name="status" class="form-select form-select-sm">
+                <option value="">Todos os status</option>
+                <option value="online" {% if status == 'online' %}selected{% endif %}>Online</option>
+                <option value="offline" {% if status == 'offline' %}selected{% endif %}>Offline</option>
+            </select>
+            <button type="submit" class="btn btn-sm btn-primary">Filtrar</button>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Hostname</th>
+                        <th>Site UID</th>
+                        <th>Status</th>
+                        <th>Última Atividade</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if devices %}
+                        {% for device in devices %}
+                        <tr>
+                            <td>{{ device.hostname or 'N/A' }}</td>
+                            <td>{{ device.site_uid or 'N/A' }}</td>
+                            <td>
+                                <span class="badge {% if device.status == 'online' %}bg-success{% else %}bg-danger{% endif %}">
+                                    {{ device.status or 'unknown' }}
+                                </span>
+                            </td>
+                            <td>{{ device.last_seen or 'N/A' }}</td>
+                            <td>
+                                <a href="{{ url_for('device_detail', device_uid=device.uid) }}" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-eye"></i> Ver
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">Nenhum dispositivo encontrado</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %} 
