@@ -125,13 +125,20 @@ async def login():
         # Tenta fazer login
         result = await supabase.sign_in(email, password)
         
-        if 'error' in result:
-            return render_template('login.html', error=result['error'])
+        if hasattr(result, 'error') or (isinstance(result, dict) and 'error' in result):
+            error_msg = result.error if hasattr(result, 'error') else result['error']
+            return render_template('login.html', error=error_msg)
         
         # Armazena o token na sessão
-        session['access_token'] = result['session']['access_token']
-        session['refresh_token'] = result['session']['refresh_token']
-        session['user'] = result['user']
+        if hasattr(result, 'session'):
+            session['access_token'] = result.session.access_token
+            session['refresh_token'] = result.session.refresh_token
+            session['user'] = result.user
+        else:
+            # Fallback para formato de dicionário
+            session['access_token'] = result.get('session', {}).get('access_token')
+            session['refresh_token'] = result.get('session', {}).get('refresh_token')
+            session['user'] = result.get('user', {})
         
         return redirect(url_for('dashboard'))
     
