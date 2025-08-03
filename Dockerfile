@@ -1,30 +1,30 @@
+# Dockerfile otimizado para produção
+# Aplicação NCISO - Sistema de Monitoramento de Dispositivos
+
 # Use uma imagem Python oficial como base
 FROM python:3.11-slim
 
 # Define o diretório de trabalho
 WORKDIR /app
 
-# Define variáveis de ambiente para evitar que o Python escreva arquivos .pyc e buffer
+# Define variáveis de ambiente para otimização
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
-
-# Variáveis de ambiente necessárias (definidas pelo EasyPanel em produção):
-# ENV SUPABASE_URL=https://pszfqqmmljekibmcgmig.supabase.co
-# ENV SUPABASE_KEY=sb_publishable_d2NwmSXLau87m9yNp590bA_zOKPvlMX
-# ENV SUPABASE_SECRET=sb_secret_9nszt9IAhYd94neHZQHP6w_0viqK_FW
-# ENV SECRET_KEY=your-production-secret-key-here
-# ENV FLASK_APP=app.py
-# ENV FLASK_ENV=production
+ENV PYTHONPATH=/app
+ENV FLASK_APP=app.py
+ENV FLASK_ENV=production
 
 # Instala dependências do sistema necessárias
 RUN apt-get update && apt-get install -y \
     gcc \
     curl \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
 
 # Copia o arquivo requirements.txt e instala as dependências Python
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
 
 # Copia o restante dos arquivos da aplicação
 COPY . .
@@ -37,5 +37,9 @@ USER appuser
 # Expõe a porta que a aplicação Flask irá rodar
 EXPOSE 5000
 
-# Comando para executar a aplicação
+# Health check para verificar se a aplicação está funcionando
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:5000/ || exit 1
+
+# Comando para executar a aplicação em produção
 CMD ["python", "app.py"]
