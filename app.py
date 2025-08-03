@@ -7,13 +7,14 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Debug: verificar se as variáveis estão sendo carregadas
-print("=== DEBUG APP.PY ===")
-print("SUPABASE_URL:", os.getenv("SUPABASE_URL"))
-print("SUPABASE_KEY:", os.getenv("SUPABASE_KEY"))
-print("SUPABASE_SECRET:", os.getenv("SUPABASE_SECRET"))
-print("SECRET_KEY:", os.getenv("SECRET_KEY"))
-print("===================")
+# Debug apenas em desenvolvimento
+if os.getenv("FLASK_ENV") == "development":
+    print("=== DEBUG APP.PY ===")
+    print("SUPABASE_URL:", os.getenv("SUPABASE_URL"))
+    print("SUPABASE_KEY:", os.getenv("SUPABASE_KEY"))
+    print("SUPABASE_SECRET:", os.getenv("SUPABASE_SECRET"))
+    print("SECRET_KEY:", os.getenv("SECRET_KEY"))
+    print("===================")
 
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY", "default-secret-key")

@@ -16,12 +16,13 @@ class SupabaseManager:
         self.supabase_key: str = os.getenv("SUPABASE_KEY")
         self.supabase_secret: str = os.getenv("SUPABASE_SECRET")
         
-        # Debug: mostra todas as variáveis de ambiente relacionadas ao Supabase
-        print("=== DEBUG: Variáveis de Ambiente ===")
-        print("SUPABASE_URL:", os.getenv("SUPABASE_URL"))
-        print("SUPABASE_KEY:", os.getenv("SUPABASE_KEY"))
-        print("SUPABASE_SECRET:", os.getenv("SUPABASE_SECRET"))
-        print("===================================")
+        # Debug apenas em desenvolvimento
+        if os.getenv("FLASK_ENV") == "development":
+            print("=== DEBUG: Variáveis de Ambiente ===")
+            print("SUPABASE_URL:", os.getenv("SUPABASE_URL"))
+            print("SUPABASE_KEY:", os.getenv("SUPABASE_KEY"))
+            print("SUPABASE_SECRET:", os.getenv("SUPABASE_SECRET"))
+            print("===================================")
         
         # Se não estiverem definidas, usa valores padrão para desenvolvimento
         if not self.supabase_url:
@@ -31,27 +32,31 @@ class SupabaseManager:
         if not self.supabase_secret:
             self.supabase_secret = "sb_secret_9nszt9IAhYd94neHZQHP6w_0viqK_FW"
         
-        # Debug: imprime as variáveis (sem mostrar valores completos)
-        print(f"SUPABASE_URL: {self.supabase_url[:20] if self.supabase_url else 'None'}...")
-        print(f"SUPABASE_KEY: {self.supabase_key[:20] if self.supabase_key else 'None'}...")
-        print(f"SUPABASE_SECRET: {self.supabase_secret[:20] if self.supabase_secret else 'None'}...")
-        
-        # Lista todas as variáveis de ambiente para debug
-        print("Variáveis de ambiente disponíveis:")
-        for key, value in os.environ.items():
-            if 'SUPABASE' in key or 'NEXT_PUBLIC' in key:
-                print(f"  {key}: {value[:20] if value else 'None'}...")
+        # Debug apenas em desenvolvimento
+        if os.getenv("FLASK_ENV") == "development":
+            print(f"SUPABASE_URL: {self.supabase_url[:20] if self.supabase_url else 'None'}...")
+            print(f"SUPABASE_KEY: {self.supabase_key[:20] if self.supabase_key else 'None'}...")
+            print(f"SUPABASE_SECRET: {self.supabase_secret[:20] if self.supabase_secret else 'None'}...")
+            
+            # Lista todas as variáveis de ambiente para debug
+            print("Variáveis de ambiente disponíveis:")
+            for key, value in os.environ.items():
+                if 'SUPABASE' in key or 'NEXT_PUBLIC' in key:
+                    print(f"  {key}: {value[:20] if value else 'None'}...")
         
         try:
             # Para operações de backend, usa a chave de serviço
             self.client: Client = create_client(self.supabase_url, self.supabase_secret)
-            print("Cliente Supabase criado com sucesso (usando service role key)")
+            if os.getenv("FLASK_ENV") == "development":
+                print("Cliente Supabase criado com sucesso (usando service role key)")
         except Exception as e:
             print(f"Erro ao criar cliente Supabase: {e}")
-            print("URL:", self.supabase_url)
-            print("Secret Key:", self.supabase_secret[:20] + "..." if self.supabase_secret else "None")
+            if os.getenv("FLASK_ENV") == "development":
+                print("URL:", self.supabase_url)
+                print("Secret Key:", self.supabase_secret[:20] + "..." if self.supabase_secret else "None")
             # Em caso de erro, cria um cliente mock para desenvolvimento
-            print("Criando cliente mock para desenvolvimento...")
+            if os.getenv("FLASK_ENV") == "development":
+                print("Criando cliente mock para desenvolvimento...")
             self.client = None
         
     async def sign_up(self, email: str, password: str) -> Dict[str, Any]:
