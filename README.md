@@ -11,12 +11,10 @@ Sistema de monitoramento e gerenciamento de dispositivos baseado em Flask e Supa
 Crie um arquivo `.env` na raiz do projeto:
 
 ```bash
-# Publishable key (safe for browser)
-NEXT_PUBLIC_SUPABASE_URL=https://pszfqqmmljekibmcgmig.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_d2NwmSXLau87m9yNp590bA_zOKPvlMX
-
-# Secret key (backend only)
-SUPABASE_SERVICE_ROLE_KEY=sb_secret_9nszt9IAhYd94neHZQHP6w_0viqK_FW
+# Supabase Configuration
+SUPABASE_URL=https://pszfqqmmljekibmcgmig.supabase.co
+SUPABASE_KEY=sb_publishable_d2NwmSXLau87m9yNp590bA_zOKPvlMX
+SUPABASE_SECRET=sb_secret_9nszt9IAhYd94neHZQHP6w_0viqK_FW
 
 # Datto RMM API
 DATTO_API_KEY=1V90QH7BHSALBD3UVVCDNK4P6EGC9GRH
@@ -119,9 +117,9 @@ docker run -d \
 
 | Variável | Descrição | Exemplo |
 |----------|-----------|---------|
-| `NEXT_PUBLIC_SUPABASE_URL` | URL do projeto Supabase | `https://pszfqqmmljekibmcgmig.supabase.co` |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Chave pública do Supabase | `sb_publishable_d2NwmSXLau87m9yNp590bA_zOKPvlMX` |
-| `SUPABASE_SERVICE_ROLE_KEY` | Chave secreta do Supabase | `sb_secret_9nszt9IAhYd94neHZQHP6w_0viqK_FW` |
+| `SUPABASE_URL` | URL do projeto Supabase | `https://pszfqqmmljekibmcgmig.supabase.co` |
+| `SUPABASE_KEY` | Chave pública do Supabase | `sb_publishable_d2NwmSXLau87m9yNp590bA_zOKPvlMX` |
+| `SUPABASE_SECRET` | Chave secreta do Supabase | `sb_secret_9nszt9IAhYd94neHZQHP6w_0viqK_FW` |
 | `SECRET_KEY` | Chave secreta do Flask | `your-secret-key-here` |
 
 ### Opcionais
