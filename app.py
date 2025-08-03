@@ -133,7 +133,12 @@ async def login():
         if hasattr(result, 'session'):
             session['access_token'] = result.session.access_token
             session['refresh_token'] = result.session.refresh_token
-            session['user'] = result.user
+            # Converte o objeto User para dicionário para serialização
+            session['user'] = {
+                'id': result.user.id,
+                'email': result.user.email,
+                'created_at': result.user.created_at.isoformat() if result.user.created_at else None
+            }
         else:
             # Fallback para formato de dicionário
             session['access_token'] = result.get('session', {}).get('access_token')
