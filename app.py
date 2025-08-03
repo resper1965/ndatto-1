@@ -19,6 +19,10 @@ if os.getenv("FLASK_ENV") == "development":
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY", "default-secret-key")
 
+# Configurações de produção
+app.config['DEBUG'] = False
+app.config['TESTING'] = False
+
 # Inicializa o gerenciador do Supabase
 supabase = SupabaseManager()
 
@@ -209,4 +213,12 @@ async def get_user():
     return jsonify({'error': 'User not found'}), 404
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Configuração para produção
+    if os.getenv("FLASK_ENV") == "production":
+        # Usar servidor de produção
+        from waitress import serve
+        print("🚀 Iniciando servidor de produção...")
+        serve(app, host='0.0.0.0', port=5000)
+    else:
+        # Modo desenvolvimento
+        app.run(debug=True, host='0.0.0.0', port=5000)

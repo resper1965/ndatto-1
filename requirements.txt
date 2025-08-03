@@ -2,4 +2,5 @@ Flask==2.3.3
 supabase==1.2.0
 httpx==0.24.1
 python-dotenv==1.0.0
+waitress==2.1.2
 mcp
