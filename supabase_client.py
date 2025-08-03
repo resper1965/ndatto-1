@@ -46,7 +46,10 @@ class SupabaseManager:
         
         try:
             # Para operações de backend, usa a chave de serviço
-            self.client: Client = create_client(self.supabase_url, self.supabase_secret)
+            self.client: Client = create_client(
+                supabase_url=self.supabase_url,
+                supabase_key=self.supabase_secret
+            )
             if os.getenv("FLASK_ENV") == "development":
                 print("Cliente Supabase criado com sucesso (usando service role key)")
         except Exception as e:
@@ -105,7 +108,10 @@ class SupabaseManager:
         """Verifica se o token JWT é válido."""
         try:
             # Para verificar o token, precisamos criar um cliente com a chave secreta
-            admin_client = create_client(self.supabase_url, self.supabase_secret)
+            admin_client = create_client(
+                supabase_url=self.supabase_url,
+                supabase_key=self.supabase_secret
+            )
             user = admin_client.auth.get_user(token)
             return user.user if user else None
         except Exception as e:
