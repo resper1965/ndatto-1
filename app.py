@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for, session
+from flask_cors import CORS
 import os
 import asyncio
 from functools import wraps
@@ -23,8 +24,32 @@ app.secret_key = os.getenv("SECRET_KEY", "default-secret-key")
 app.config['DEBUG'] = False
 app.config['TESTING'] = False
 
+# Configuração CORS para domínio personalizado
+CORS(app, origins=[
+    'http://ndatto.nciso.ness.tec.br',
+    'https://ndatto.nciso.ness.tec.br',
+    'http://localhost:3000',
+    'http://localhost:5000'
+])
+
+# Configuração de domínio personalizado
+DOMAIN_CONFIG = {
+    'allowed_hosts': [
+        'ndatto.nciso.ness.tec.br',
+        'localhost',
+        '127.0.0.1',
+        '62.72.8.164'
+    ]
+}
+
 # Inicializa o gerenciador do Supabase
 supabase = SupabaseManager()
+
+# Middleware para verificar domínio
+@app.before_request
+def check_domain():
+    if request.host not in DOMAIN_CONFIG['allowed_hosts']:
+        return jsonify({'error': 'Domain not allowed'}), 403
 
 def async_route(f):
     @wraps(f)
