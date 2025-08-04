@@ -62,18 +62,24 @@ def login_required(f):
     def decorated_function(*args, **kwargs):
         try:
             token = session.get('access_token')
+            print(f"🔍 Verificando token: {'Presente' if token else 'Ausente'}")
+            
             if not token:
+                print("❌ Token não encontrado na sessão")
                 return redirect(url_for('login'))
             
             # Verifica se o token ainda é válido
+            print("🔍 Verificando validade do token...")
             user = asyncio.run(supabase.verify_token(token))
             if not user:
+                print("❌ Token inválido ou expirado")
                 session.clear()
                 return redirect(url_for('login'))
             
+            print("✅ Token válido - acessando rota")
             return f(*args, **kwargs)
         except Exception as e:
-            print(f"Erro no login_required: {e}")
+            print(f"❌ Erro no login_required: {e}")
             session.clear()
             return redirect(url_for('login'))
     return decorated_function
@@ -136,18 +142,23 @@ async def login():
             return render_template('login.html', error="Acesso restrito ao domínio @ness.com.br")
         
         # Tenta fazer login
+        print(f"🔍 Tentando login para: {email}")
         result = await supabase.sign_in(email, password)
+        print(f"📊 Resultado do login: {type(result)}")
         
         # Verifica se houve erro
         if hasattr(result, 'error') and result.error:
+            print(f"❌ Erro no login: {result.error}")
             return render_template('login.html', error=str(result.error))
         
         # Verifica se é um dicionário com erro
         if isinstance(result, dict) and 'error' in result:
+            print(f"❌ Erro no login (dict): {result['error']}")
             return render_template('login.html', error=result['error'])
         
         # Armazena o token na sessão
         if hasattr(result, 'session') and result.session:
+            print("✅ Login bem-sucedido - armazenando tokens")
             session['access_token'] = result.session.access_token
             session['refresh_token'] = result.session.refresh_token
             # Converte o objeto User para dicionário para serialização
@@ -157,17 +168,22 @@ async def login():
                     'email': result.user.email,
                     'created_at': result.user.created_at.isoformat() if result.user.created_at else None
                 }
+                print(f"✅ Usuário armazenado: {result.user.email}")
             else:
                 session['user'] = {}
+                print("⚠️  Usuário não encontrado no resultado")
         elif isinstance(result, dict):
             # Fallback para formato de dicionário
+            print("✅ Login bem-sucedido (formato dict)")
             session['access_token'] = result.get('session', {}).get('access_token')
             session['refresh_token'] = result.get('session', {}).get('refresh_token')
             session['user'] = result.get('user', {})
         else:
             # Se não conseguiu fazer login, retorna erro
+            print(f"❌ Resultado inesperado: {result}")
             return render_template('login.html', error="Erro ao fazer login. Verifique suas credenciais.")
         
+        print("🚀 Redirecionando para dashboard...")
         return redirect(url_for('dashboard'))
     
     return render_template('login.html')
