@@ -161,19 +161,20 @@ body {
 
 /* Login */
 .login-container {
-    min-height: 100vh;
+    min-height: 80vh;
     display: flex;
     align-items: center;
     justify-content: center;
     background: linear-gradient(135deg, var(--gray-50), var(--gray-100));
+    padding: 2rem 0;
 }
 
 .login-card {
     background-color: var(--gray-100);
     border-radius: 16px;
-    padding: 2rem;
+    padding: 1.5rem;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    max-width: 400px;
+    max-width: 380px;
     width: 100%;
 }
 
@@ -219,6 +220,30 @@ footer {
     margin-top: auto;
 }
 
+/* Botão Google */
+.btn-outline-secondary {
+    border-color: var(--gray-400);
+    color: var(--gray-700);
+    background-color: transparent;
+}
+
+.btn-outline-secondary:hover {
+    background-color: var(--gray-200);
+    border-color: var(--gray-500);
+    color: var(--gray-900);
+}
+
+/* Status de autenticação */
+#auth-status {
+    font-size: 0.875rem;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+#loading-status {
+    font-size: 0.875rem;
+}
+
 /* Responsividade */
 @media (max-width: 768px) {
     .dashboard-card {
@@ -227,7 +252,12 @@ footer {
     
     .login-card {
         margin: 1rem;
-        padding: 1.5rem;
+        padding: 1.25rem;
+    }
+    
+    .login-container {
+        min-height: 70vh;
+        padding: 1rem 0;
     }
 }
 
