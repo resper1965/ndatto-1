@@ -60,9 +60,11 @@ async def dashboard():
         return render_template('dashboard.html', error=str(e))
 
 @app.route('/login')
-def login_redirect():
-    """Redireciona /login para o dashboard (sistema sem autenticação)"""
-    return redirect(url_for('dashboard'))
+def login_404():
+    """Retorna 404 para /login - sistema sem autenticação"""
+    return "Página não encontrada - Sistema sem autenticação", 404
+
+
 
 @app.route('/devices')
 @async_route
