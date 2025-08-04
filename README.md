@@ -118,6 +118,9 @@ pip install -r requirements.txt
 
 # Execute a aplicação
 python app.py
+
+# Acesse diretamente
+http://localhost:5000
 ```
 
 ### 3. Build Docker
@@ -307,9 +310,8 @@ python test_datto_api.py
 ```
 
 ### 2. Teste via Interface Web
-1. Acesse a aplicação
-2. Faça login
-3. Navegue para `/test-collector`
+1. Acesse a aplicação diretamente
+2. Navegue para `/test-collector`
 
 ### 3. Sincronização Manual
 ```bash

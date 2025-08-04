@@ -59,96 +59,9 @@ class SupabaseManager:
                 print("Criando cliente mock para desenvolvimento...")
             self.client = None
         
-    async def sign_up(self, email: str, password: str) -> Dict[str, Any]:
-        """Registra um novo usuário."""
-        try:
-            response = self.client.auth.sign_up({
-                "email": email,
-                "password": password
-            })
-            return response
-        except Exception as e:
-            print(f"Erro ao registrar usuário: {e}")
-            return {"error": str(e)}
+
     
-    async def sign_in(self, email: str, password: str) -> Any:
-        """Faz login de um usuário."""
-        try:
-            if not self.client:
-                return {"error": "Cliente Supabase não inicializado"}
-            
-            response = self.client.auth.sign_in_with_password({
-                "email": email,
-                "password": password
-            })
-            return response
-        except Exception as e:
-            print(f"Erro ao fazer login: {e}")
-            return {"error": str(e)}
-    
-    async def sign_in_with_google(self) -> Dict[str, Any]:
-        """Inicia o processo de login com Google via Supabase."""
-        try:
-            if not self.client:
-                return {"error": "Cliente Supabase não inicializado"}
-            
-            # Gera URL de autorização do Google via Supabase
-            response = self.client.auth.sign_in_with_oauth({
-                "provider": "google",
-                "options": {
-                    "redirect_to": f"{os.getenv('BASE_URL', 'https://ndatto.ncsio.ness.tec.br')}/auth/callback"
-                }
-            })
-            return response
-        except Exception as e:
-            print(f"Erro ao iniciar login com Google: {e}")
-            return {"error": str(e)}
-    
-    async def handle_oauth_callback(self, code: str, state: str) -> Any:
-        """Processa o callback do OAuth (Google)."""
-        try:
-            if not self.client:
-                return {"error": "Cliente Supabase não inicializado"}
-            
-            # Troca o código de autorização por tokens
-            response = self.client.auth.exchange_code_for_session(code)
-            return response
-        except Exception as e:
-            print(f"Erro ao processar callback OAuth: {e}")
-            return {"error": str(e)}
-    
-    async def sign_out(self) -> bool:
-        """Faz logout do usuário."""
-        try:
-            self.client.auth.sign_out()
-            return True
-        except Exception as e:
-            print(f"Erro ao fazer logout: {e}")
-            return False
-    
-    async def get_user(self) -> Optional[Dict[str, Any]]:
-        """Obtém o usuário atual."""
-        try:
-            user = self.client.auth.get_user()
-            return user.user if user else None
-        except Exception as e:
-            print(f"Erro ao obter usuário: {e}")
-            return None
-    
-    async def verify_token(self, token: str) -> Optional[Dict[str, Any]]:
-        """Verifica se o token JWT é válido."""
-        try:
-            if not self.supabase_url or not self.supabase_secret:
-                print("Erro: URL ou chave secreta do Supabase não configuradas")
-                return None
-            
-            # Para verificar o token, precisamos criar um cliente com a chave secreta
-            admin_client = create_client(self.supabase_url, self.supabase_secret)
-            user = admin_client.auth.get_user(token)
-            return user.user if user else None
-        except Exception as e:
-            print(f"Erro ao verificar token: {e}")
-            return None
+
     
     async def get_devices(self, filters: Optional[Dict[str, Any]] = None, limit: int = 100) -> List[Dict[str, Any]]:
         """Obtém dispositivos com filtros opcionais."""
