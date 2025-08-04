@@ -73,6 +73,11 @@ async def dashboard():
         print(f"❌ Erro no dashboard: {e}")
         return render_template('dashboard.html', error=str(e))
 
+@app.route('/login')
+def login_redirect():
+    """Redireciona /login para o dashboard (sistema sem autenticação)"""
+    return redirect(url_for('dashboard'))
+
 @app.route('/devices')
 @async_route
 async def devices():
