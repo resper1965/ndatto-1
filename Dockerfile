@@ -1,9 +1,8 @@
 # Dockerfile otimizado para produção
 # Aplicação NCISO - Sistema de Monitoramento de Dispositivos
-# Versão: 1.0.3 - Janeiro 2025
-# Inclui: Login com Google OAuth via Supabase
+# Versão: 1.1.0 - Janeiro 2025
+# Status: Sem autenticação - Foco no core
 # Domínio: ndatto.ncsio.ness.tec.br
-# Status: Final - Pronto para produção
 
 # Use uma imagem Python oficial como base
 FROM python:3.11-slim
