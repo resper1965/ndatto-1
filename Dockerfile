@@ -1,7 +1,8 @@
 # Dockerfile otimizado para produção
 # Aplicação NCISO - Sistema de Monitoramento de Dispositivos
-# Versão: 1.0.1 - Janeiro 2025
+# Versão: 1.0.2 - Janeiro 2025
 # Inclui: Login com Google OAuth via Supabase
+# Domínio: ndatto.ncsio.ness.tec.br
 
 # Use uma imagem Python oficial como base
 FROM python:3.11-slim
@@ -16,6 +17,7 @@ ENV PYTHONPATH=/app
 ENV FLASK_APP=app.py
 ENV FLASK_ENV=production
 ENV PORT=5000
+ENV BASE_URL=https://ndatto.ncsio.ness.tec.br
 
 # Instala dependências do sistema necessárias
 RUN apt-get update && apt-get install -y \
