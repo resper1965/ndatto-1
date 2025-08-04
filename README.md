@@ -267,13 +267,26 @@ sudo chown -R $USER:$USER .
 ## 📁 Estrutura do Projeto
 
 ```
-ndatto-1/
+nciso/
 ├── app.py                 # Aplicação principal Flask
+├── data_collector.py      # Coletor de dados da API Datto
 ├── supabase_client.py     # Cliente Supabase
 ├── requirements.txt       # Dependências Python
 ├── Dockerfile            # Configuração Docker
-├── .env                  # Variáveis de ambiente (local)
+├── deploy_to_github.sh   # Script de deploy automatizado
+├── test_datto_api.py     # Teste da API Datto
 ├── .gitignore           # Arquivos ignorados pelo Git
+├── docs/                # Documentação
+│   ├── README.md        # Documentação organizada
+│   ├── DATTO_API_SETUP.md
+│   ├── EASYPANEL_ENV_SETUP.md
+│   ├── AVALIACAO_SISTEMA.md
+│   ├── RESUMO_IMPLEMENTACAO.md
+│   └── DOMAIN_SETUP.md
+├── scripts/             # Scripts de automação
+│   └── deploy_production.sh
+├── config/              # Arquivos de configuração
+│   └── production.env
 ├── static/              # Arquivos estáticos
 │   ├── css/
 │   └── js/
@@ -347,13 +360,22 @@ docker run -d \
   nsecops
 ```
 
+## 📚 Documentação
+
+Toda a documentação está organizada no diretório `docs/`:
+
+- **[📖 Documentação Completa](docs/README.md)** - Guia organizado de toda a documentação
+- **[🔧 Configuração EasyPanel](docs/EASYPANEL_ENV_SETUP.md)** - Configuração de variáveis
+- **[🚀 API Datto](docs/DATTO_API_SETUP.md)** - Configuração da API Datto RMM
+- **[📊 Avaliação Sistema](docs/AVALIACAO_SISTEMA.md)** - Avaliação completa
+- **[📋 Resumo Implementação](docs/RESUMO_IMPLEMENTACAO.md)** - Resumo da implementação
+
 ## 📞 Suporte
 
 Para problemas ou dúvidas:
 - Email: resper@ness.com.br
 - Repositório: https://github.com/resper1965/ndatto-1
-- Documentação API: [DATTO_API_SETUP.md](DATTO_API_SETUP.md)
-- Avaliação Sistema: [AVALIACAO_SISTEMA.md](AVALIACAO_SISTEMA.md)
+- Documentação: [docs/README.md](docs/README.md)
 
 ---
 

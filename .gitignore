@@ -42,4 +42,36 @@ Thumbs.db
 
 # Arquivos temporários
 *.tmp
-*.temp 
+*.temp
+
+# Diretórios de desenvolvimento
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Logs
+*.log
+logs/
+
+# Arquivos de IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
+
+# Arquivos de configuração local
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Arquivos de backup
+*.bak
+*.backup 
