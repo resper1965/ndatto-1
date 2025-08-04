@@ -1,6 +1,22 @@
 # n.secops - Sistema de Monitoramento de Dispositivos
 
-Sistema de monitoramento e gerenciamento de dispositivos baseado em Flask e Supabase.
+Sistema de monitoramento e gerenciamento de dispositivos baseado em Flask e Supabase, com integração completa com a API do Datto RMM.
+
+## 🚀 Status do Projeto
+
+✅ **Integração com API Datto RMM** - Sistema completo de coleta de dados  
+✅ **Dashboard em Tempo Real** - Visualização de dispositivos e alertas  
+✅ **Sistema de Testes** - Validação da conectividade com a API  
+✅ **Documentação Completa** - Guias de configuração e uso  
+
+## 📊 Funcionalidades Principais
+
+- 🔍 **Monitoramento de Dispositivos** - Status, hardware, localização
+- 🚨 **Sistema de Alertas** - Notificações em tempo real
+- 📍 **Gestão de Sites** - Organização por localização
+- 📈 **Dashboard Interativo** - Estatísticas e métricas
+- 🔄 **Sincronização Automática** - Dados sempre atualizados
+- 🧪 **Sistema de Testes** - Validação da API Datto
 
 ## 🚀 Configuração Rápida
 
@@ -17,8 +33,8 @@ SUPABASE_KEY=sb_publishable_d2NwmSXLau87m9yNp590bA_zOKPvlMX
 SUPABASE_SECRET=sb_secret_9nszt9IAhYd94neHZQHP6w_0viqK_FW
 
 # Datto RMM API
-DATTO_API_KEY=1V90QH7BHSALBD3UVVCDNK4P6EGC9GRH
-DATTO_API_SECRET=81RR0IRHJEMSP7QELPC52USS967LBD5F
+DATTO_API_KEY=sua-chave-api-datto-aqui
+DATTO_API_SECRET=seu-segredo-api-datto-aqui
 
 # Flask Configuration
 FLASK_APP=app.py
@@ -26,22 +42,31 @@ FLASK_ENV=development
 SECRET_KEY=dev-secret-key-change-in-production
 ```
 
-#### Para Produção (Docker)
+#### Para Produção (EasyPanel)
 
-Configure as variáveis de ambiente no seu sistema de deploy:
+**Configuração no EasyPanel:**
+1. Acesse o painel do EasyPanel
+2. Vá para o projeto `nciso-dattormm`
+3. Navegue até **Settings** > **Environment Variables**
+4. Adicione as seguintes variáveis:
 
-**EasyPanel:**
-- Vá para as configurações do projeto
-- Adicione as seguintes variáveis de ambiente:
-
+**Variáveis Obrigatórias:**
 ```bash
 SUPABASE_URL=https://pszfqqmmljekibmcgmig.supabase.co
-SUPABASE_KEY=sb_publishable_d2NwmSXLau87m9yNp590bA_zOKPvlMX
-SUPABASE_SECRET=sb_secret_9nszt9IAhYd94neHZQHP6w_0viqK_FW
-SECRET_KEY=your-production-secret-key-here
+SUPABASE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBzemZxcW1tbGpla2libWNnbWlnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE5NDE4NTAsImV4cCI6MjA2NzUxNzg1MH0.y5-XyIFRpBX8uolv6IzvcNHs0_Xm6Q3eV74YFc_Vc6s
+SUPABASE_SECRET=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBzemZxcW1tbGpla2libWNnbWlnIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1MTk0MTg1MCwiZXhwIjoyMDY3NTE3ODUwfQ.LL99WTJPqiTQNViTduyi8r5itQSkaw1b9Gomv58Ajyk
+SECRET_KEY=nciso-prod-2025-secure-key-change-in-production
 FLASK_APP=app.py
 FLASK_ENV=production
 ```
+
+**Variáveis da API Datto:**
+```bash
+DATTO_API_KEY=sua-chave-real-api-datto
+DATTO_API_SECRET=seu-segredo-real-api-datto
+```
+
+**Nota:** As variáveis de ambiente no EasyPanel são persistidas automaticamente e ficam disponíveis para a aplicação em produção.
 
 **Docker Compose:**
 ```yaml
@@ -259,6 +284,26 @@ ndatto-1/
     └── ...
 ```
 
+## 🧪 Testando a API Datto
+
+### 1. Teste Básico
+```bash
+python test_datto_api.py
+```
+
+### 2. Teste via Interface Web
+1. Acesse a aplicação
+2. Faça login
+3. Navegue para `/test-collector`
+
+### 3. Sincronização Manual
+```bash
+# Via curl
+curl -X GET https://seu-dominio.com/sync
+
+# Ou acesse /sync na aplicação
+```
+
 ## 🔐 Segurança
 
 - **Nunca** commite o arquivo `.env` no Git
@@ -266,15 +311,53 @@ ndatto-1/
 - Configure Row Level Security (RLS) no Supabase
 - Use HTTPS em produção
 - Troque a `SECRET_KEY` em produção
+- **Proteja as chaves da API Datto** - Nunca exponha em logs ou commits
+
+## 🚀 Deploy
+
+### Deploy Automático
+```bash
+# Execute o script de deploy
+./deploy_to_github.sh
+```
+
+### Deploy Manual
+```bash
+# Adicione arquivos
+git add .
+
+# Faça commit
+git commit -m "feat: Integração com API Datto"
+
+# Push para GitHub
+git push origin main
+```
+
+### Deploy Docker
+```bash
+# Build da imagem
+docker build -t nsecops .
+
+# Execute
+docker run -d \
+  -e SUPABASE_URL=sua-url \
+  -e SUPABASE_KEY=sua-chave \
+  -e DATTO_API_KEY=sua-chave-datto \
+  -p 5000:5000 \
+  nsecops
+```
 
 ## 📞 Suporte
 
 Para problemas ou dúvidas:
 - Email: resper@ness.com.br
 - Repositório: https://github.com/resper1965/ndatto-1
+- Documentação API: [DATTO_API_SETUP.md](DATTO_API_SETUP.md)
+- Avaliação Sistema: [AVALIACAO_SISTEMA.md](AVALIACAO_SISTEMA.md)
 
 ---
 
 **Desenvolvido por:** Ricardo Esper  
 **Empresa:** Ness  
-**Versão:** 1.0.0
+**Versão:** 1.0.0  
+**Última Atualização:** Janeiro 2025

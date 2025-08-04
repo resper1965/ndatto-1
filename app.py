@@ -81,6 +81,10 @@ async def dashboard():
         # Obtém estatísticas do dashboard
         stats = await supabase.get_dashboard_stats()
         
+        # Obtém dados recentes
+        recent_devices = await supabase.get_recent_devices(5)
+        recent_alerts = await supabase.get_recent_alerts(5)
+        
         # Obtém usuário atual
         user = await supabase.get_user()
         
@@ -92,6 +96,8 @@ async def dashboard():
             total_alerts=stats.get('total_alerts', 0),
             new_alerts=stats.get('new_alerts', 0),
             total_sites=stats.get('total_sites', 0),
+            recent_devices=recent_devices,
+            recent_alerts=recent_alerts,
             user=user or {}
         )
     except Exception as e:
@@ -105,6 +111,8 @@ async def dashboard():
             total_alerts=0,
             new_alerts=0,
             total_sites=0,
+            recent_devices=[],
+            recent_alerts=[],
             user={}
         )
 
@@ -244,10 +252,46 @@ async def sync_data():
     """Endpoint para sincronizar dados manualmente."""
     from data_collector import DataCollector
     
-    collector = DataCollector()
-    await collector.collect_all_data()
+    try:
+        collector = DataCollector()
+        success = await collector.collect_all_data()
+        
+        if success:
+            return redirect(url_for('dashboard'))
+        else:
+            return "Erro ao sincronizar dados", 500
+    except Exception as e:
+        print(f"Erro na sincronização: {e}")
+        return "Erro interno do servidor", 500
+
+@app.route('/test-collector')
+@login_required
+@async_route
+async def test_collector():
+    """Endpoint para testar o coletor de dados."""
+    from data_collector import DataCollector
     
-    return redirect(url_for('dashboard'))
+    try:
+        collector = DataCollector()
+        
+        # Testa coleta de dados
+        sites = await collector.collect_sites()
+        devices = await collector.collect_devices()
+        alerts = await collector.collect_alerts()
+        
+        result = {
+            'sites_count': len(sites),
+            'devices_count': len(devices),
+            'alerts_count': len(alerts),
+            'sites': sites[:3],  # Primeiros 3 sites
+            'devices': devices[:3],  # Primeiros 3 dispositivos
+            'alerts': alerts[:3]  # Primeiros 3 alertas
+        }
+        
+        return jsonify(result)
+    except Exception as e:
+        print(f"Erro no teste do coletor: {e}")
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/api/user')
 @login_required

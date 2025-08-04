@@ -259,3 +259,27 @@ class SupabaseManager:
                 'new_alerts': 2,
                 'total_sites': 3
             }
+    
+    async def get_recent_devices(self, limit: int = 5) -> List[Dict[str, Any]]:
+        """Obtém dispositivos recentes para o dashboard."""
+        try:
+            if not self.client:
+                return []
+            
+            response = self.client.table('devices').select('*').order('last_seen', desc=True).limit(limit).execute()
+            return response.data if response.data else []
+        except Exception as e:
+            print(f"Erro ao obter dispositivos recentes: {e}")
+            return []
+    
+    async def get_recent_alerts(self, limit: int = 5) -> List[Dict[str, Any]]:
+        """Obtém alertas recentes para o dashboard."""
+        try:
+            if not self.client:
+                return []
+            
+            response = self.client.table('alerts').select('*').order('created_at', desc=True).limit(limit).execute()
+            return response.data if response.data else []
+        except Exception as e:
+            print(f"Erro ao obter alertas recentes: {e}")
+            return []

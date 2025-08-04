@@ -94,9 +94,28 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td colspan="4" class="text-center text-muted">No recent devices data</td>
-                            </tr>
+                            {% if recent_devices %}
+                                {% for device in recent_devices %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ url_for('device_detail', device_uid=device.uid) }}" class="text-decoration-none">
+                                            {{ device.hostname }}
+                                        </a>
+                                    </td>
+                                    <td>{{ device.site_uid }}</td>
+                                    <td>
+                                        <span class="badge {% if device.status == 'online' %}bg-success{% else %}bg-danger{% endif %}">
+                                            {{ device.status }}
+                                        </span>
+                                    </td>
+                                    <td>{{ device.last_seen[:10] if device.last_seen else 'N/A' }}</td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="4" class="text-center text-muted">Nenhum dispositivo recente</td>
+                                </tr>
+                            {% endif %}
                         </tbody>
                     </table>
                 </div>
@@ -122,9 +141,31 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td colspan="4" class="text-center text-muted">No recent alerts data</td>
-                            </tr>
+                            {% if recent_alerts %}
+                                {% for alert in recent_alerts %}
+                                <tr>
+                                    <td>{{ alert.device_uid }}</td>
+                                    <td>
+                                        <span class="badge 
+                                            {% if alert.severity == 'high' %}bg-danger
+                                            {% elif alert.severity == 'medium' %}bg-warning
+                                            {% else %}bg-info{% endif %}">
+                                            {{ alert.alert_type }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge {% if alert.status == 'new' %}bg-warning{% else %}bg-success{% endif %}">
+                                            {{ alert.status }}
+                                        </span>
+                                    </td>
+                                    <td>{{ alert.created_at[:10] if alert.created_at else 'N/A' }}</td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="4" class="text-center text-muted">Nenhum alerta recente</td>
+                                </tr>
+                            {% endif %}
                         </tbody>
                     </table>
                 </div>
