@@ -1,7 +1,7 @@
 # Dockerfile otimizado para produção
 # Aplicação NCISO - Sistema de Monitoramento de Dispositivos
-# Versão: 1.2.0 - Janeiro 2025
-# Status: Sem autenticação - Sistema core limpo
+# Versão: 1.2.1 - Janeiro 2025
+# Status: Sem autenticação - Redirecionamento /login corrigido
 # Domínio: ndatto.ncsio.ness.tec.br
 
 # Use uma imagem Python oficial como base
