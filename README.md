@@ -275,11 +275,13 @@ nciso/
 ├── Dockerfile            # Configuração Docker
 ├── deploy_to_github.sh   # Script de deploy automatizado
 ├── test_datto_api.py     # Teste da API Datto
+├── postman_collection.json # Coleção Postman para API Datto
 ├── .gitignore           # Arquivos ignorados pelo Git
 ├── docs/                # Documentação
 │   ├── README.md        # Documentação organizada
 │   ├── DATTO_API_SETUP.md
 │   ├── EASYPANEL_ENV_SETUP.md
+│   ├── POSTMAN_SETUP.md # Configuração Postman
 │   ├── AVALIACAO_SISTEMA.md
 │   ├── RESUMO_IMPLEMENTACAO.md
 │   └── DOMAIN_SETUP.md
@@ -367,6 +369,7 @@ Toda a documentação está organizada no diretório `docs/`:
 - **[📖 Documentação Completa](docs/README.md)** - Guia organizado de toda a documentação
 - **[🔧 Configuração EasyPanel](docs/EASYPANEL_ENV_SETUP.md)** - Configuração de variáveis
 - **[🚀 API Datto](docs/DATTO_API_SETUP.md)** - Configuração da API Datto RMM
+- **[🛠️ Configuração Postman](docs/POSTMAN_SETUP.md)** - Coleção para testar a API Datto
 - **[📊 Avaliação Sistema](docs/AVALIACAO_SISTEMA.md)** - Avaliação completa
 - **[📋 Resumo Implementação](docs/RESUMO_IMPLEMENTACAO.md)** - Resumo da implementação
 

@@ -1,0 +1,166 @@
+{
+  "info": {
+    "name": "Datto RMM API",
+    "description": "Coleção para testar endpoints da Datto RMM API - NCISO Project",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://centraapi.centrastage.net/api/v2",
+      "type": "string"
+    },
+    {
+      "key": "api_key",
+      "value": "{{DATTO_API_KEY}}",
+      "type": "string"
+    },
+    {
+      "key": "api_secret",
+      "value": "{{DATTO_API_SECRET}}",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Test API Connection",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Secret",
+                "value": "{{api_secret}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/sites",
+              "host": ["{{base_url}}"],
+              "path": ["sites"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Sites",
+      "item": [
+        {
+          "name": "Get All Sites",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Secret",
+                "value": "{{api_secret}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/sites",
+              "host": ["{{base_url}}"],
+              "path": ["sites"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Devices",
+      "item": [
+        {
+          "name": "Get All Devices",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Secret",
+                "value": "{{api_secret}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/devices",
+              "host": ["{{base_url}}"],
+              "path": ["devices"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Device Components",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Secret",
+                "value": "{{api_secret}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/devices/{{device_uid}}/components",
+              "host": ["{{base_url}}"],
+              "path": ["devices", "{{device_uid}}", "components"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Alerts",
+      "item": [
+        {
+          "name": "Get All Alerts",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{api_key}}",
+                "type": "text"
+              },
+              {
+                "key": "X-API-Secret",
+                "value": "{{api_secret}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/alerts",
+              "host": ["{{base_url}}"],
+              "path": ["alerts"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+} 
