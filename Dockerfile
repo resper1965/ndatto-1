@@ -1,6 +1,7 @@
 # Dockerfile otimizado para produção
 # Aplicação NCISO - Sistema de Monitoramento de Dispositivos
-# Versão: 1.0.0 - Janeiro 2025
+# Versão: 1.0.1 - Janeiro 2025
+# Inclui: Login com Google OAuth via Supabase
 
 # Use uma imagem Python oficial como base
 FROM python:3.11-slim
