@@ -210,5 +210,149 @@ async def get_user():
         'authenticated': True
     })
 
+@app.route('/postman-test')
+@async_route
+async def postman_test():
+    """Página para testar APIs do Postman"""
+    return render_template('postman_test.html')
+
+@app.route('/api/postman/sites')
+@async_route
+async def postman_sites():
+    """Endpoint para receber dados de sites do Postman"""
+    try:
+        # Simula dados do Postman
+        sites_data = [
+            {
+                'uid': 'site-001',
+                'name': 'Site Principal',
+                'address': 'Rua das Flores, 123',
+                'status': 'active',
+                'devices_count': 15,
+                'last_sync': '2025-01-27T10:00:00Z'
+            },
+            {
+                'uid': 'site-002',
+                'name': 'Filial Norte',
+                'address': 'Av. Central, 456',
+                'status': 'active',
+                'devices_count': 8,
+                'last_sync': '2025-01-27T09:30:00Z'
+            },
+            {
+                'uid': 'site-003',
+                'name': 'Filial Sul',
+                'address': 'Rua do Comércio, 789',
+                'status': 'inactive',
+                'devices_count': 12,
+                'last_sync': '2025-01-27T08:45:00Z'
+            }
+        ]
+        
+        return jsonify({
+            'status': 'success',
+            'data': sites_data,
+            'source': 'Postman Collection',
+            'timestamp': '2025-01-27T10:00:00Z'
+        })
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': str(e)
+        }), 500
+
+@app.route('/api/postman/devices')
+@async_route
+async def postman_devices():
+    """Endpoint para receber dados de devices do Postman"""
+    try:
+        # Simula dados do Postman
+        devices_data = [
+            {
+                'uid': 'device-001',
+                'hostname': 'server-principal',
+                'site_uid': 'site-001',
+                'status': 'online',
+                'last_seen': '2025-01-27T10:00:00Z',
+                'ip_address': '192.168.1.100',
+                'os': 'Windows Server 2019'
+            },
+            {
+                'uid': 'device-002',
+                'hostname': 'workstation-01',
+                'site_uid': 'site-001',
+                'status': 'online',
+                'last_seen': '2025-01-27T09:55:00Z',
+                'ip_address': '192.168.1.101',
+                'os': 'Windows 10'
+            },
+            {
+                'uid': 'device-003',
+                'hostname': 'server-filial',
+                'site_uid': 'site-002',
+                'status': 'offline',
+                'last_seen': '2025-01-27T08:30:00Z',
+                'ip_address': '192.168.2.100',
+                'os': 'Ubuntu 20.04'
+            }
+        ]
+        
+        return jsonify({
+            'status': 'success',
+            'data': devices_data,
+            'source': 'Postman Collection',
+            'timestamp': '2025-01-27T10:00:00Z'
+        })
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': str(e)
+        }), 500
+
+@app.route('/api/postman/alerts')
+@async_route
+async def postman_alerts():
+    """Endpoint para receber dados de alerts do Postman"""
+    try:
+        # Simula dados do Postman
+        alerts_data = [
+            {
+                'uid': 'alert-001',
+                'device_uid': 'device-001',
+                'message': 'CPU usage above 90%',
+                'severity': 'warning',
+                'status': 'active',
+                'created_at': '2025-01-27T09:45:00Z'
+            },
+            {
+                'uid': 'alert-002',
+                'device_uid': 'device-003',
+                'message': 'Device offline for more than 1 hour',
+                'severity': 'critical',
+                'status': 'active',
+                'created_at': '2025-01-27T08:30:00Z'
+            },
+            {
+                'uid': 'alert-003',
+                'device_uid': 'device-002',
+                'message': 'Disk space low',
+                'severity': 'info',
+                'status': 'resolved',
+                'created_at': '2025-01-27T09:00:00Z'
+            }
+        ]
+        
+        return jsonify({
+            'status': 'success',
+            'data': alerts_data,
+            'source': 'Postman Collection',
+            'timestamp': '2025-01-27T10:00:00Z'
+        })
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': str(e)
+        }), 500
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=False)
