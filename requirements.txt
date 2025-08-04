@@ -5,5 +5,3 @@ httpx==0.24.1
 python-dotenv==1.0.0
 waitress==2.1.2
 aiohttp==3.9.1
-asyncio
-mcp
