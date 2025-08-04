@@ -195,6 +195,79 @@ async def logout():
     session.clear()
     return redirect(url_for('login'))
 
+@app.route('/auth/google')
+@async_route
+async def google_auth():
+    """Inicia o processo de login com Google."""
+    try:
+        result = await supabase.sign_in_with_google()
+        
+        if 'error' in result:
+            print(f"❌ Erro ao iniciar login Google: {result['error']}")
+            return render_template('login.html', error='Erro ao conectar com Google')
+        
+        # Redireciona para a URL de autorização do Google
+        auth_url = result.get('data', {}).get('url')
+        if auth_url:
+            print(f"🔗 Redirecionando para: {auth_url}")
+            return redirect(auth_url)
+        else:
+            print("❌ URL de autorização não encontrada")
+            return render_template('login.html', error='Erro na configuração do Google OAuth')
+            
+    except Exception as e:
+        print(f"❌ Erro no Google OAuth: {e}")
+        return render_template('login.html', error='Erro interno do servidor')
+
+@app.route('/auth/callback')
+@async_route
+async def oauth_callback():
+    """Processa o callback do OAuth (Google)."""
+    try:
+        code = request.args.get('code')
+        state = request.args.get('state')
+        
+        print(f"🔄 Callback OAuth - Code: {code[:10] if code else 'None'}..., State: {state}")
+        
+        if not code:
+            print("❌ Código de autorização não fornecido")
+            return render_template('login.html', error='Erro na autorização')
+        
+        result = await supabase.handle_oauth_callback(code, state)
+        
+        if hasattr(result, 'session') and result.session:
+            print("✅ OAuth bem-sucedido com session")
+            session['access_token'] = result.session.access_token
+            session['refresh_token'] = result.session.refresh_token
+            session['user'] = {
+                'id': result.user.id,
+                'email': result.user.email,
+                'role': getattr(result.user, 'role', 'user')
+            }
+            print("✅ Sessão OAuth configurada com sucesso")
+            return redirect(url_for('dashboard'))
+        elif isinstance(result, dict) and result.get('session'):
+            print("✅ OAuth bem-sucedido com dict")
+            session['access_token'] = result['session']['access_token']
+            session['refresh_token'] = result['session']['refresh_token']
+            session['user'] = {
+                'id': result['user']['id'],
+                'email': result['user']['email'],
+                'role': result['user'].get('role', 'user')
+            }
+            print("✅ Sessão OAuth configurada com sucesso")
+            return redirect(url_for('dashboard'))
+        else:
+            print(f"❌ OAuth falhou: {result}")
+            error_msg = 'Erro na autenticação com Google'
+            if isinstance(result, dict) and 'error' in result:
+                error_msg = result['error']
+            return render_template('login.html', error=error_msg)
+            
+    except Exception as e:
+        print(f"❌ Erro no callback OAuth: {e}")
+        return render_template('login.html', error='Erro interno do servidor')
+
 @app.route('/devices')
 @login_required
 @async_route

@@ -86,6 +86,37 @@ class SupabaseManager:
             print(f"Erro ao fazer login: {e}")
             return {"error": str(e)}
     
+    async def sign_in_with_google(self) -> Dict[str, Any]:
+        """Inicia o processo de login com Google via Supabase."""
+        try:
+            if not self.client:
+                return {"error": "Cliente Supabase não inicializado"}
+            
+            # Gera URL de autorização do Google via Supabase
+            response = self.client.auth.sign_in_with_oauth({
+                "provider": "google",
+                "options": {
+                    "redirect_to": f"{os.getenv('BASE_URL', 'http://localhost:5000')}/auth/callback"
+                }
+            })
+            return response
+        except Exception as e:
+            print(f"Erro ao iniciar login com Google: {e}")
+            return {"error": str(e)}
+    
+    async def handle_oauth_callback(self, code: str, state: str) -> Any:
+        """Processa o callback do OAuth (Google)."""
+        try:
+            if not self.client:
+                return {"error": "Cliente Supabase não inicializado"}
+            
+            # Troca o código de autorização por tokens
+            response = self.client.auth.exchange_code_for_session(code)
+            return response
+        except Exception as e:
+            print(f"Erro ao processar callback OAuth: {e}")
+            return {"error": str(e)}
+    
     async def sign_out(self) -> bool:
         """Faz logout do usuário."""
         try:

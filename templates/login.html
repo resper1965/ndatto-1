@@ -63,10 +63,13 @@
 </div>
 
 <script>
-// Função para login com Google (placeholder)
+// Função para login com Google via Supabase
 function loginWithGoogle() {
-    showStatus('info', 'Login com Google em desenvolvimento...');
-    // Aqui você pode implementar a integração real com Google OAuth
+    showStatus('info', 'Conectando com Google...');
+    showLoading();
+    
+    // Redireciona para a rota de autenticação do Google
+    window.location.href = '/auth/google';
 }
 
 // Função para mostrar status
