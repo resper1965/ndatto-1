@@ -71,9 +71,12 @@ class SupabaseManager:
             print(f"Erro ao registrar usuário: {e}")
             return {"error": str(e)}
     
-    async def sign_in(self, email: str, password: str) -> Dict[str, Any]:
+    async def sign_in(self, email: str, password: str) -> Any:
         """Faz login de um usuário."""
         try:
+            if not self.client:
+                return {"error": "Cliente Supabase não inicializado"}
+            
             response = self.client.auth.sign_in_with_password({
                 "email": email,
                 "password": password
@@ -104,6 +107,10 @@ class SupabaseManager:
     async def verify_token(self, token: str) -> Optional[Dict[str, Any]]:
         """Verifica se o token JWT é válido."""
         try:
+            if not self.supabase_url or not self.supabase_secret:
+                print("Erro: URL ou chave secreta do Supabase não configuradas")
+                return None
+            
             # Para verificar o token, precisamos criar um cliente com a chave secreta
             admin_client = create_client(self.supabase_url, self.supabase_secret)
             user = admin_client.auth.get_user(token)
