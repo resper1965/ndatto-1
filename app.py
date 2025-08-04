@@ -18,29 +18,15 @@ if os.getenv("FLASK_ENV") == "development":
     print("===================")
 
 app = Flask(__name__)
-app.secret_key = os.getenv("SECRET_KEY", "default-secret-key")
 
 # Configurações de produção
 app.config['DEBUG'] = False
 app.config['TESTING'] = False
 
-# Configuração CORS para domínio personalizado
-CORS(app, origins=[
-    'http://ndatto.ncsio.ness.tec.br',
-    'https://ndatto.ncsio.ness.tec.br',
-    'http://localhost:3000',
-    'http://localhost:5000'
-])
+# Configuração CORS - permite todos os domínios
+CORS(app)
 
-# Configuração de domínio personalizado
-DOMAIN_CONFIG = {
-    'allowed_hosts': [
-        'ndatto.ncsio.ness.tec.br',
-        'localhost',
-        '127.0.0.1',
-        '62.72.8.164'
-    ]
-}
+
 
 # Inicializa o gerenciador do Supabase
 supabase = SupabaseManager()
