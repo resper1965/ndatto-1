@@ -96,7 +96,7 @@ class SupabaseManager:
             response = self.client.auth.sign_in_with_oauth({
                 "provider": "google",
                 "options": {
-                    "redirect_to": f"{os.getenv('BASE_URL', 'http://localhost:5000')}/auth/callback"
+                    "redirect_to": f"{os.getenv('BASE_URL', 'https://ndatto.ncsio.ness.tec.br')}/auth/callback"
                 }
             })
             return response

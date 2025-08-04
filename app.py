@@ -26,8 +26,8 @@ app.config['TESTING'] = False
 
 # Configuração CORS para domínio personalizado
 CORS(app, origins=[
-    'http://ndatto.nciso.ness.tec.br',
-    'https://ndatto.nciso.ness.tec.br',
+    'http://ndatto.ncsio.ness.tec.br',
+    'https://ndatto.ncsio.ness.tec.br',
     'http://localhost:3000',
     'http://localhost:5000'
 ])
@@ -35,7 +35,7 @@ CORS(app, origins=[
 # Configuração de domínio personalizado
 DOMAIN_CONFIG = {
     'allowed_hosts': [
-        'ndatto.nciso.ness.tec.br',
+        'ndatto.ncsio.ness.tec.br',
         'localhost',
         '127.0.0.1',
         '62.72.8.164'

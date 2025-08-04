@@ -370,6 +370,7 @@ Toda a documentação está organizada no diretório `docs/`:
 - **[🔧 Configuração EasyPanel](docs/EASYPANEL_ENV_SETUP.md)** - Configuração de variáveis
 - **[🚀 API Datto](docs/DATTO_API_SETUP.md)** - Configuração da API Datto RMM
 - **[🛠️ Configuração Postman](docs/POSTMAN_SETUP.md)** - Coleção para testar a API Datto
+- **[🔐 Google OAuth Setup](docs/GOOGLE_OAUTH_SETUP.md)** - Configuração Google OAuth
 - **[📊 Avaliação Sistema](docs/AVALIACAO_SISTEMA.md)** - Avaliação completa
 - **[📋 Resumo Implementação](docs/RESUMO_IMPLEMENTACAO.md)** - Resumo da implementação
 
